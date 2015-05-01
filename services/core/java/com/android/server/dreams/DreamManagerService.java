@@ -660,7 +660,7 @@ public final class DreamManagerService extends SystemService {
             return isDreamingInternal();
         }
 
-	@Override
+        @Override
         public boolean isDozing() {
             return isDozingInternal();
         }
