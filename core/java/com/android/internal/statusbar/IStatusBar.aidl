@@ -46,6 +46,7 @@ oneway interface IStatusBar
     void preloadRecentApps();
     void cancelPreloadRecentApps();
     void showScreenPinningRequest();
+    void setAutoRotate(boolean enabled);
 
     /**
      * Notifies the status bar that an app transition is pending to delay applying some flags with
