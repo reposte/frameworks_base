@@ -98,10 +98,6 @@ public class NotificationPanelView extends PanelView implements
 
     public static final long DOZE_ANIMATION_DURATION = 700;
 
-    private static final int ONE_FINGER_QS_INTERCEPT_OFF   = 0;
-    private static final int ONE_FINGER_QS_INTERCEPT_RIGHT = 1;
-    private static final int ONE_FINGER_QS_INTERCEPT_LEFT  = 2;
-
     private KeyguardAffordanceHelper mAfforanceHelper;
     private StatusBarHeaderView mHeader;
     private KeyguardUserSwitcher mKeyguardUserSwitcher;
@@ -231,7 +227,6 @@ public class NotificationPanelView extends PanelView implements
 
     private Handler mHandler = new Handler();
     private SettingsObserver mSettingsObserver;
-    private int mOneFingerQuickSettingsInterceptMode;
 
     private boolean mDozeWakeupDoubleTap;
 
@@ -829,10 +824,6 @@ public class NotificationPanelView extends PanelView implements
         final int pointerCount = event.getPointerCount();
         final int action = event.getActionMasked();
 
-        final boolean oneFingerDrag = action == MotionEvent.ACTION_DOWN
-                && mOneFingerQuickSettingsInterceptMode > ONE_FINGER_QS_INTERCEPT_OFF
-                && shouldQuickSettingsIntercept (event.getX(), event.getY(), -1, false);
-
         final boolean twoFingerDrag = action == MotionEvent.ACTION_POINTER_DOWN
                 && pointerCount == 2;
 
@@ -844,7 +835,7 @@ public class NotificationPanelView extends PanelView implements
                 && (event.isButtonPressed(MotionEvent.BUTTON_SECONDARY)
                         || event.isButtonPressed(MotionEvent.BUTTON_TERTIARY));
 
-        return oneFingerDrag || twoFingerDrag || stylusButtonClickDrag || mouseButtonClickDrag;
+        return twoFingerDrag || stylusButtonClickDrag || mouseButtonClickDrag;
     }
 
     private void handleQsDown(MotionEvent event) {
@@ -1501,35 +1492,16 @@ public class NotificationPanelView extends PanelView implements
      * @return Whether we should intercept a gesture to open Quick Settings.
      */
     private boolean shouldQuickSettingsIntercept(float x, float y, float yDiff) {
-        return shouldQuickSettingsIntercept(x, y, yDiff, true);
-    }
-
-    /**
-     * @return Whether we should intercept a gesture to open Quick Settings.
-     */
-    private boolean shouldQuickSettingsIntercept(float x, float y, float yDiff, boolean useHeader) {
-        if (!mQsExpansionEnabled) {
+        if (!mQsExpansionEnabled || mCollapsedOnDown) {
             return false;
         }
         View header = mKeyguardShowing ? mKeyguardStatusBar : mHeader;
-        boolean onHeader = useHeader && x >= header.getX() && x <= header.getX() + header.getWidth()
+        boolean onHeader = x >= header.getX() && x <= header.getX() + header.getWidth()
                 && y >= header.getTop() && y <= header.getBottom();
-
-        final float w = (header.getX() + header.getWidth());
-        float region = (w * (1.f/4.f)); // TODO overlay region fraction?
-
-        boolean showQsOverride = false;
-
-        if (mOneFingerQuickSettingsInterceptMode == ONE_FINGER_QS_INTERCEPT_RIGHT) {
-            showQsOverride = isLayoutRtl() ? (x < region) : (w - region < x);
-        } else if (mOneFingerQuickSettingsInterceptMode == ONE_FINGER_QS_INTERCEPT_LEFT) {
-            showQsOverride = isLayoutRtl() ? (w - region < x) : (x < region);
-        }
-
         if (mQsExpanded) {
             return onHeader || (mScrollView.isScrolledToBottom() && yDiff < 0) && isInQsArea(x, y);
         } else {
-            return onHeader || (showQsOverride && mStatusBarState == StatusBarState.SHADE);
+            return onHeader;
         }
     }
 
@@ -2517,8 +2489,6 @@ public class NotificationPanelView extends PanelView implements
 
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
-	    resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(SlimSettings.System.getUriFor(
                     SlimSettings.System.DOZE_WAKEUP_DOUBLETAP), false, this, UserHandle.USER_ALL);
             update();
@@ -2539,15 +2509,10 @@ public class NotificationPanelView extends PanelView implements
             update();
         }
 
-
         public void update() {
             ContentResolver resolver = mContext.getContentResolver();
-            mOneFingerQuickSettingsInterceptMode = Settings.System.getIntForUser(
-                    resolver, Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN,
-                    ONE_FINGER_QS_INTERCEPT_OFF, UserHandle.USER_CURRENT);
             mDozeWakeupDoubleTap = SlimSettings.System.getIntForUser(resolver,
                     SlimSettings.System.DOZE_WAKEUP_DOUBLETAP, 0, UserHandle.USER_CURRENT) == 1;
         }
     }
 }
-
