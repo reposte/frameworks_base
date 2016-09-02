@@ -21,10 +21,14 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.ContentResolver;
+import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.UserHandle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -42,7 +46,7 @@ import com.android.systemui.R;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
 import com.android.systemui.tuner.TunerService.Tunable;
 
-public class TunerFragment extends PreferenceFragment {
+public class TunerFragment extends PreferenceFragment implements OnPreferenceChangeListener {
 
     private static final String TAG = "TunerFragment";
 
@@ -50,16 +54,22 @@ public class TunerFragment extends PreferenceFragment {
     private static final String KEY_DEMO_MODE = "demo_mode";
     private static final String KEY_BATTERY_PCT = "battery_pct";
 
+    private static final String QUICK_PULLDOWN = "quick_pulldown";
+
     public static final String SETTING_SEEN_TUNER_WARNING = "seen_tuner_warning";
 
     private static final int MENU_REMOVE = Menu.FIRST + 1;
 
     private final SettingObserver mSettingObserver = new SettingObserver();
 
+    private ListPreference mQuickPulldown;
+
     private SwitchPreference mBatteryPct;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+	ContentResolver resolver = getActivity().getContentResolver();
 
         addPreferencesFromResource(R.xml.tuner_prefs);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -99,6 +109,14 @@ public class TunerFragment extends PreferenceFragment {
                         }
                     }).show();
         }
+
+        mQuickPulldown = (ListPreference) findPreference(QUICK_PULLDOWN);
+        int quickPulldownValue = Settings.System.getIntForUser(resolver,
+                Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN, 0, UserHandle.USER_CURRENT);
+        mQuickPulldown.setValue(String.valueOf(quickPulldownValue));
+        mQuickPulldown.setOnPreferenceChangeListener(this);
+        updatePulldownSummary(quickPulldownValue);
+
     }
 
     @Override
@@ -146,6 +164,18 @@ public class TunerFragment extends PreferenceFragment {
             }
         }
     }
+
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        ContentResolver resolver = getActivity().getContentResolver();
+        if (preference == mQuickPulldown) {
+            int quickPulldownValue = Integer.valueOf((String) newValue);
+            Settings.System.putIntForUser(resolver, Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN,
+                    quickPulldownValue, UserHandle.USER_CURRENT);
+            updatePulldownSummary(quickPulldownValue);
+            return true;
+        }
+        return false;
+     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -198,4 +228,18 @@ public class TunerFragment extends PreferenceFragment {
             return true;
         }
     };
+
+    private void updatePulldownSummary(int value) {
+        Resources res = getResources();
+        if (value == 0) {
+            // quick pulldown deactivated
+            mQuickPulldown.setSummary(res.getString(R.string.quick_pulldown_off));
+        } else {
+            String direction = res.getString(value == 2
+                    ? R.string.quick_pulldown_summary_left
+                    : R.string.quick_pulldown_summary_right);
+            mQuickPulldown.setSummary(res.getString(R.string.quick_pulldown_summary, direction));
+        }
+    }
+
 }
