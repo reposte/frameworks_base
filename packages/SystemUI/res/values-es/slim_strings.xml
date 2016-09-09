@@ -20,9 +20,9 @@
 
 
 <!-- Dialog Cancel/OK -->
-    <string name="cancel">Cancel</string>
-    <string name="dlg_ok">Ok</string>
-    <string name="yes">Yes</string>
+    <string name="cancel">Cancelar</string>
+    <string name="dlg_ok">Aceptar</string>
+    <string name="yes">Si</string>
     <string name="no">No</string>
 
     <!-- Slim Shortcut Actions -->
