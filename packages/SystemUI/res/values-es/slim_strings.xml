@@ -17,28 +17,147 @@
   <string name="accessibility_su_active">Sesión administrativa (Root) activa</string>
   <!-- Kill app toast -->
   <string name="app_killed_message">Aplicación finalizada</string>
-  <!-- Dialog Cancel/OK -->
-  <!-- Slim Shortcut Actions -->
-  <string name="shortcut_screenshot">Captura de pantalla</string>
-  <!-- Off/On/Toggle -->
-  <!-- Battery level for expanded quick settings [CHAR LIMIT=2] -->
-  <!-- Battery level text while charging [CHAR LIMIT=2] -->
-  <!-- QS Tiles Columns -->
-  <!-- Additonal QS tiles -->
-  <!-- USB tether QS tile -->
-  <!-- Ambient Display QS tile -->
-  <!-- Screenshot QS tile -->
-  <!-- Sync QS tile -->
-  <!-- Screen off QS tile -->
-  <!-- Screen timeout QS tile -->
-  <!-- Brightness QS Tile -->
-  <!-- Music QS Tile -->
-  <!-- Reboot/Recovery QS Tile -->
-  <!-- Battery Saver QS Tile -->
-  <!-- Compass QS Tile -->
-  <!-- Caffeine QS Tile -->
-  <!-- IME selector Tile -->
-  <!-- Volume QS Tile -->
-  <!-- Sound QS Tile -->
-  <!-- Advanced Location QS Tile -->
+
+
+<!-- Dialog Cancel/OK -->
+    <string name="cancel">Cancel</string>
+    <string name="dlg_ok">Ok</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!-- Slim Shortcut Actions -->
+    <string name="shortcut_picker">Accesos directos Slim</string>
+    <string name="shortcut_screenshot">Captura de pantalla</string>
+    <string name="shortcut_chamber">Cámara de los secretos</string>
+    <string name="chamber_disabled">La cámara de los secretos está cerrada</string>
+    <string name="chamber_title">Escriba una opción de ajustes</string>
+    <string name="chamber_message">Escriba una opción de ajustes que sea una función activado/desactivado o una lista de opciones. Por ejemplo, doze_enabled o similar. Las opciones de los ajustes se encuentran en el fichero Settings.java. ATENCIÓN: ¡Esto puede ser peligroso!</string>
+    <string name="chamber_slim_title">Opción de ajustes</string>
+    <string name="chamber_slim_message">Esta opción se ha encontrado en los ajustes aosp y en slim. ¿Es un ajuste de slim??</string>
+    <string name="chamber_invalid">El valor introducido no es válido. Tenga cuidado.</string>
+    <string name="chamber_invalid_setting">Pruebe a intercambiar las opciones manualmente para asegurarse de que esta acción existe en la base de datos.</string>
+    <string name="chamber_checkbox">Interruptor</string>
+    <string name="chamber_chk_message">¿Es este ajuste un interruptor?</string>
+    <string name="chamber_int">Introducir valores</string>
+    <string name="chamber_int_message">Introducir los valores entre los que quiere que el interruptor cambie. Separar cada valor con una coma. Las opciones de colores aceptar valores headecimales como #FF00aacc o valores básicos de clores como red, green, and yellow.</string>
+    <string name="chamber_name_title">Nombre del acceso directo</string>
+    <string name="chamber_name_message">Asignar un nombre al acceso directo para que se muestre junto al icono.</string>
+    <string name="chamber_name_toast">Usando nombre predeterminado</string>
+
+    <!-- Off/On/Toggle -->
+    <string name="off">Activado</string>
+    <string name="on">Desactivado</string>
+    <string name="toggle">Interruptor</string>
+    <string name="shortcut_toggle_title">Acción a realizar</string>
+
+    <!-- QS Tiles Columns -->
+    <string name="qs_num_columns_entries_three">Tres</string>
+    <string name="qs_num_columns_entries_four">Cuatro</string>
+    <string name="qs_num_columns_entries_five">Cinco</string>
+    <string name="qs_main_tiles_title">Agrandar primera fila</string>
+    <string name="qs_main_tiles_summary">Muestra dos interruptores principales en la primera fila</string>
+    <string name="qs_num_columns_title">Número de interruptores por fila</string>
+    <string name="qs_num_columns_showing">Mostrando %1$s interruptores por fila</string>
+
+    <!-- Additonal QS tiles -->
+    <!-- USB tether QS tile -->
+    <string name="accessibility_quick_settings_usb_tether_off">Anclaje USB desactivado</string>
+    <string name="accessibility_quick_settings_usb_tether_on">Anclaje USB activado</string>
+    <string name="accessibility_quick_settings_usb_tether_changed_off">Anclaje USB apagado</string>
+    <string name="accessibility_quick_settings_usb_tether_changed_on">Anclaje USB encendido</string>
+    <string name="quick_settings_usb_tether_label">Anclaje USB</string>
+
+    <!-- Ambient Display QS tile -->
+    <string name="accessibility_quick_settings_ambient_display_off">Pantalla ambiente desactivada</string>
+    <string name="accessibility_quick_settings_ambient_display_on">Pantalla ambiente activada</string>
+    <string name="accessibility_quick_settings_ambient_display_changed_off">Pantalla ambiente apagada</string>
+    <string name="accessibility_quick_settings_ambient_display_changed_on">Pangtalla ambiente encendida</string>
+    <string name="quick_settings_ambient_display_label">Pantalla ambiente</string>
+
+    <!-- Screenshot QS tile -->
+    <string name="quick_settings_screenshot_label">Captura de pantalla</string>
+
+    <!-- NFC QS tile -->
+    <string name="quick_settings_nfc_label">NFC</string>
+
+    <!-- Sync QS tile -->
+    <string name="quick_settings_sync_label">Sincronización</string>
+    <string name="accessibility_quick_settings_sync_off">Sincronización desactivada</string>
+    <string name="accessibility_quick_settings_sync_on">Sincronización activada</string>
+    <string name="accessibility_quick_settings_sync_changed_off">Sincronización apagada</string>
+    <string name="accessibility_quick_settings_sync_changed_on">Sincronización endencida</string>
+
+    <!-- Screen off QS tile -->
+    <string name="quick_settings_screen_off">Apagar pantalla</string>
+
+    <!-- Screen timeout QS tile -->
+    <string name="quick_settings_timeout_label">Tiempo de espera</string>
+    <string name="quick_settings_screen_timeout_detail_title">Tiempo de espera de pantalla</string>
+    <string name="accessibility_quick_settings_screen_timeout">Tiempo de espera de pantalla: <xliff:g id="timeout" example="30 seconds">%s</xliff:g>.</string>
+    <string name="accessibility_quick_settings_screen_timeout_changed">Tiempo de espera de pantalla cambiado a <xliff:g id="timeout" example="30 seconds">%s</xliff:g>.</string>
+
+    <!-- Brightness QS Tile -->
+    <string name="quick_settings_brightness">Brillo</string>
+
+    <!-- Music QS Tile -->
+    <string name="quick_settings_music_label">Música</string>
+    <string name="quick_settings_music_play">Reproducir</string>
+    <string name="quick_settings_music_pause">Pausa</string>
+
+    <!-- Reboot/Recovery QS Tile -->
+    <string name="quick_settings_reboot_label">Reiniciar</string>
+    <string name="quick_settings_reboot_recovery_label">Recovery</string>
+
+    <!-- Battery Saver QS Tile -->
+    <string name="quick_settings_battery_saver">Ahorro de batería</string>
+    <string name="accessibility_quick_settings_battery_saver_off">Ahorro de batería desactivado.</string>
+    <string name="accessibility_quick_settings_battery_saver_on">Ahorro de batería activado.</string>
+    <string name="accessibility_quick_settings_battery_saver_changed_off">Ahorro de batería encendido.</string>
+    <string name="accessibility_quick_settings_battery_saver_changed_on">Ahorro de batería apagado.</string>
+
+    <!-- Compass QS Tile -->
+    <string name="quick_settings_compass_label">Brújula</string>
+    <string name="quick_settings_compass_value"><xliff:g id="degrees">%1$.0f</xliff:g>\u00b0 <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="quick_settings_compass_init">Inicializando\u2026</string>
+    <string name="accessibility_quick_settings_compass_off">Brújula desactivada.</string>
+    <string name="accessibility_quick_settings_compass_on">Brújula activada.</string>
+    <string name="accessibility_quick_settings_compass_changed_off">Brújula apagada.</string>
+    <string name="accessibility_quick_settings_compass_changed_on">Brújula encendida.</string>
+    <string name="quick_settings_compass_N">N</string>
+    <string name="quick_settings_compass_NE">NE</string>
+    <string name="quick_settings_compass_E">E</string>
+    <string name="quick_settings_compass_SE">SE</string>
+    <string name="quick_settings_compass_S">S</string>
+    <string name="quick_settings_compass_SW">SO</string>
+    <string name="quick_settings_compass_W">O</string>
+    <string name="quick_settings_compass_NW">NO</string>
+
+    <!-- Caffeine QS Tile -->
+    <string name="quick_settings_caffeine_label">Cafeina</string>
+    <string name="accessibility_quick_settings_caffeine_off">Cafeína desactivada.</string>
+    <string name="accessibility_quick_settings_caffeine_on">Cafeína activada.</string>
+
+    <!-- IME selector Tile -->
+    <string name="quick_settings_ime_label">Método de entrada</string>
+
+    <!-- Volume QS Tile -->
+    <string name="accessibility_quick_settings_volume_panel">Panel de volumen.</string>
+    <string name="quick_settings_volume_panel_label">Panel de volumen</string>
+
+    <!-- Sound QS Tile -->
+    <string name="quick_settings_sound_label">Sonido</string>
+    <string name="quick_settings_sound_ring">Tono</string>
+    <string name="quick_settings_sound_vibrate">Vibrar</string>
+    <string name="quick_settings_sound_silent">Silencio</string>
+
+    <!-- Advanced Location QS Tile -->
+    <string name="accessibility_quick_settings_location_battery_saving">Informe de ubicación: modo ahorro de batería.</string>
+    <string name="accessibility_quick_settings_location_gps_only">Informe de ubicación: modo sólo sensores.</string>
+    <string name="accessibility_quick_settings_location_high_accuracy">Informe de ubicacióng: modo alta precisión.</string>
+
+    <string name="quick_settings_location_detail_title">Modo de ubicación</string>
+    <string name="quick_settings_location_battery_saving_label">Ahorro de batería</string>
+    <string name="quick_settings_location_gps_only_label">Sólo dispositivo</string>
+    <string name="quick_settings_location_high_accuracy_label">Alta precisión</string>
+
 </resources>
