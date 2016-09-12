@@ -436,6 +436,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mTranslucentDecorEnabled = true;
     boolean mUseTvRouting;
 
+    // During wakeup by volume keys, we still need to capture subsequent events
+    // until the key is released. This is required since the beep sound is produced
+    // post keypressed.
+    boolean mVolumeWakeTriggered;
+
     int mPointerLocationMode = 0; // guarded by mLock
 
     // The last window we were told about in focusChanged.
@@ -446,6 +451,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // Behavior of volbtn music controls
     boolean mVolBtnMusicControls;
     boolean mIsLongPress;
+
+    // Volume wake control flag
+    boolean mVolumeWakeScreen;
 
     PointerLocationView mPointerLocationView;
 
@@ -784,6 +792,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.Global.getUriFor(
                     Settings.Global.POLICY_CONTROL), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.VOLUME_WAKE_SCREEN), false, this,
+                   UserHandle.USER_ALL);
             resolver.registerContentObserver(SlimSettings.System.getUriFor(
                     SlimSettings.System.NAVIGATION_BAR_CAN_MOVE), false, this,
                     UserHandle.USER_ALL);
@@ -1913,6 +1924,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (mImmersiveModeConfirmation != null) {
                 mImmersiveModeConfirmation.loadSetting(mCurrentUserId);
             }
+            // Volume wake
+            mVolumeWakeScreen = (Settings.System.getIntForUser(resolver,
+                    Settings.System.VOLUME_WAKE_SCREEN, 0, UserHandle.USER_CURRENT) == 1);
+
         }
         synchronized (mWindowManagerFuncs.getWindowManagerLock()) {
             PolicyControl.reloadFromSetting(mContext);
@@ -5198,6 +5213,28 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     // On TVs volume keys never go to the foreground app
                     result &= ~ACTION_PASS_TO_USER;
                 }
+                // Eat all volume keys for wake unless music and music control is active
+                // This disables key beep, vol wake based on music active/control states
+                if (mVolBtnMusicControls) {
+                    if (isWakeKey && (!isMusicActive() && mVolumeWakeScreen)) {
+                        mVolumeWakeTriggered = true;
+                        break;
+                    } else if (mVolumeWakeTriggered && !down) {
+                        result &= ~ACTION_PASS_TO_USER;
+                        mVolumeWakeTriggered = false;
+                        break;
+                    }
+                } else {
+                    if (isWakeKey && mVolumeWakeScreen) {
+                        mVolumeWakeTriggered = true;
+                        break;
+                    } else if (mVolumeWakeTriggered && !down) {
+                        result &= ~ACTION_PASS_TO_USER;
+                        mVolumeWakeTriggered = false;
+                        break;
+                    }
+                }
+
                 if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
                     if (down) {
                         if (interactive && !mScreenshotChordVolumeDownKeyTriggered
@@ -5507,7 +5544,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             case KeyEvent.KEYCODE_VOLUME_UP:
             case KeyEvent.KEYCODE_VOLUME_DOWN:
             case KeyEvent.KEYCODE_VOLUME_MUTE:
-                return mDockMode != Intent.EXTRA_DOCK_STATE_UNDOCKED;
+            if (mVolBtnMusicControls) {
+                return !isMusicActive() && mVolumeWakeScreen || mDockMode != Intent.EXTRA_DOCK_STATE_UNDOCKED;
+            } else {
+                return mVolumeWakeScreen || mDockMode != Intent.EXTRA_DOCK_STATE_UNDOCKED;
+            }
 
             // ignore media and camera keys
             case KeyEvent.KEYCODE_MUTE:
