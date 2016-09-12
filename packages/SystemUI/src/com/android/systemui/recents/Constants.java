@@ -42,7 +42,7 @@ public class Constants {
             // Enables debug mode
             public static final boolean EnableDebugMode = false;
             // Enables the search bar layout
-            public static final boolean EnableSearchLayout = true;
+            public static final boolean EnableSearchLayout = false;
             // Enables the thumbnail alpha on the front-most task
             public static final boolean EnableThumbnailAlphaOnFrontmost = false;
             // Enables all system stacks to show up in the same recents stack
