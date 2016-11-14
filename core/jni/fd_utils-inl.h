@@ -55,6 +55,7 @@ static const char* kPathWhitelist[] = {
   "/sys/kernel/debug/tracing/trace_marker",
   "/system/framework/framework-res.apk",
   "/system/framework/org.slim.framework-res.apk",
+  "/system/framework/XposedBridge.jar",
   "/dev/urandom",
   "/dev/ion",
   "/dev/rpmsg-omx0",
