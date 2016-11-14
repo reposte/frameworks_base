@@ -260,8 +260,7 @@ class FileDescriptorInfo {
         path.compare(path.size() - kJarSuffix.size(), kJarSuffix.size(), kJarSuffix) == 0) {
       return true;
     }
-    ALOGE("¡Xposed HACK!");
-    return true;
+    return false;
   }
 
   // TODO: Call android::base::Readlink instead of copying the code here.
