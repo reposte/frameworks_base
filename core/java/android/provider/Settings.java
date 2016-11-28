@@ -6050,6 +6050,8 @@ public final class Settings {
          */
         public static final String ASSIST_SCREENSHOT_ENABLED = "assist_screenshot_enabled";
 
+	public static final String LOCKSCREEN_QUICK_UNLOCK_CONTROL = "lockscreen_quick_unlock_control";
+
         /**
          * Specifies whether the screen will show an animation if screen contents are sent to the
          * assist application (active voice interaction service).
@@ -6437,6 +6439,7 @@ public final class Settings {
             CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED,
             SYSTEM_NAVIGATION_KEYS_ENABLED,
             QS_TILES,
+	    LOCKSCREEN_QUICK_UNLOCK_CONTROL,
         };
 
         /**
