@@ -244,9 +244,6 @@ public class NotificationManagerService extends SystemService {
     // for checking lockscreen status
     private KeyguardManager mKeyguardManager;
 
-    // for checking lockscreen status
-    private KeyguardManager mKeyguardManager;
-
     // used as a mutex for access to all active notifications & listeners
     final ArrayList<NotificationRecord> mNotificationList =
             new ArrayList<NotificationRecord>();
